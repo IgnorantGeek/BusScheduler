@@ -13,3 +13,6 @@ bnorth = '862'
 towers = '8860'
 
 print(next.get_predictions_for_stop(local, towers))
+
+#so I know how to pull the data into an xml from nextbus. Now I just need to parse the xml for relevent data
+#then print the data wherever it needs to go
