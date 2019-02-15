@@ -1,7 +1,7 @@
 
 
 from xml.etree import ElementTree
-from urllib import urlencode
+from urllib.parse import urlencode
 
 
 NEXTBUS_SERVICE_URL = "http://webservices.nextbus.com/service/publicXMLFeed"
@@ -293,7 +293,7 @@ class RouteConfig:
     def directions(self):
         return self.directions_dict.values()
 
-    def has_stop_id(stop_id):
+    def has_stop_id(self, stop_id):
         return stop_id in self.stops_dict
 
 
