@@ -1,9 +1,14 @@
-from distutils.core import setup
+from setuptools import setup
 
-setup(
-    name        = 'python-nextbus',
-    description = 'A Python library for connecting to the NextBus public API',
-    version     = '0.1',
-    py_modules  = ['nextbus'],
-    url         = 'https://github.com/apparentlymart/python-nextbus',
+def get_readme():
+    return open('README.md').read()
+
+setup(name='PyScanner',
+      version='1.0',
+      packages=['scanner'],
+      description='Java-like input scanner.',
+      long_description=get_readme(),
+      author='Kanat Bekt',
+      author_email='bekt17@gmail.com',
+      url='https://github.com/Bekt/PyScanner'
 )
