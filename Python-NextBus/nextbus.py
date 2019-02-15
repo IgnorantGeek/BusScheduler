@@ -1,7 +1,7 @@
 
 
 from xml.etree import ElementTree
-from urllib.parse import urlencode
+from urllib import urlencode
 
 
 NEXTBUS_SERVICE_URL = "http://webservices.nextbus.com/service/publicXMLFeed"
