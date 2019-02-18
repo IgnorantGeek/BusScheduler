@@ -23,11 +23,11 @@ if not goldq.predictions:
     goldtime = -1
     #keeps there from being an error when using the pop command
 else:
-    goldtime = goldq.predictions.pop().minutes
+    goldtime = goldq.predictions[0].minutes
 if not brownq.predictions:
     browntime = -1
 else:
-    browntime = brownq.predictions.pop().minutes
+    browntime = brownq.predictions[0].minutes
 
 
 #display section
