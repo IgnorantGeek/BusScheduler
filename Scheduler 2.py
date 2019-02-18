@@ -27,19 +27,23 @@ def prediction_query(agency, stop_id):
 #display section
 window = tk.Tk()
 window.title('Next Arrivals at Storm St./Towers Turnaround')
-#window.geometry('600x100') leaves this in auto 
+window.geometry('650x100')
 
 while window:
     goldtime = prediction_query(cyride, tturn)
     browntime = prediction_query(cyride, storm)
     tk.Label(window, text="Next Gold North: ", font=("Arial Bold", 30)).grid(row=0,column=0)
     tk.Label(window, text=goldtime, font=("Arial Bold", 30)).grid(row=0,column=1)
+    tk.Label(window, text="  minutes", font=("Arial Bold", 30)).grid(row=0,column=2)
     tk.Label(window, text="Next Brown North: ", font=("Arial Bold", 30)).grid(row=1,column=0)
     tk.Label(window, text=browntime, font=("Arial Bold", 30)).grid(row=1,column=1)
+    tk.Label(window, text="  minutes", font=("Arial Bold", 30)).grid(row=1,column=2)
     window.update()    
 
 window.mainloop()
 
 
-#issues: the window flashes when it is running, not a big deal
+#issues: 
+#        the window flashes when it is running, not a big deal
 #        there is an error when closing the window because the loop tries to run again after it was destroyed.
+#        sometimes the display gets messed up with what number to display
