@@ -1,5 +1,3 @@
-
-
 from xml.etree import ElementTree
 from urllib import urlencode
 
