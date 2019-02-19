@@ -31,10 +31,15 @@ def prediction_query(agency, stop_id):
         else:
                 return query.predictions[0].minutes
 
+# I want to give this method a list of the  routes to print, then print them
+# So I will need to pass in a list of predictions from prediction_query and print the title and arrival time
+# So can I just pass in the prediction? IE have prediction_query return the whole prediction for specified routes
+# then send it to the window. Probably need to tweak the logic but that seems like a decent idea.
+# Can probably integrate the above method here. Pass in the routes and stops you want predictions for and it will
+# pull up a window with the readout
 def send_to_window():
         window = tk.Tk()
         window.title('Next Arrivals at Storm St./Towers Turnaround')
-        window.geometry('650x100')
         while window:
                 goldtime = prediction_query(cyride, tturn)
                 browntime = prediction_query(cyride, storm)
