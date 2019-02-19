@@ -1,6 +1,5 @@
 import nextbus
 import Tkinter as tk
-#import RPi.GPIO as GPIO for use when interfacing with the RPiO pins
 
 #agency
 cyride = 'cyride'
@@ -31,8 +30,6 @@ def prediction_query(agency, stop_id):
         return -1
     else:
         return query.predictions[0].minutes
-
-#display section
 
 def send_to_window():
         window = tk.Tk()
