@@ -15,21 +15,21 @@ tturn = '8860'
 storm = '8870'
 
 def get_stops_for_route(agency, route):
-    stops = nextbus.get_route_config(agency, route)
-    for stop in stops.stops:
-        print "Stop at {} has stop_id {}".format(stop.title, stop.tag)
+        stops = nextbus.get_route_config(agency, route)
+        for stop in stops.stops:
+                print "Stop at {} has stop_id {}".format(stop.title, stop.tag)
 
 def get_route_tags(agency):
-    routes = nextbus.get_all_routes_for_agency(agency)
-    for route in routes:
-        print "Route {} has route_tag {}".format(route.title, route.tag)
+        routes = nextbus.get_all_routes_for_agency(agency)
+        for route in routes:
+                print "Route {} has route_tag {}".format(route.title, route.tag)
 
 def prediction_query(agency, stop_id):
-    query = nextbus.get_predictions_for_stop(agency, stop_id)
-    if not query.predictions:
-        return -1
-    else:
-        return query.predictions[0].minutes
+        query = nextbus.get_predictions_for_stop(agency, stop_id)
+        if not query.predictions:
+                return -1
+        else:
+                return query.predictions[0].minutes
 
 def send_to_window():
         window = tk.Tk()
