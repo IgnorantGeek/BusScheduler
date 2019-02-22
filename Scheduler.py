@@ -9,10 +9,16 @@ gn = '952'
 gs = '951'
 bn = '862'
 bs = '861'
+orange = '940'
+card = '930'
+blue = '830'
 
 #stops for testing
 tturn = '8860'
 storm = '8870'
+bessey = '2500'
+laverne = '2040'
+lfriley = '2041'
 
 def print_stops_for_route(agency, route_id):
         stops = nextbus.get_route_config(agency, route_id)
@@ -28,31 +34,33 @@ def print_route_tags(agency):
 # pull up a window with the readout
 def prediction_to_window(agency, stop_id, *route_id):
         window = tk.Tk()
-        query = nextbus.get_predictions_for_stop(agency, stop_id) #scan this query for the specified route_id
-        #how can we pass in multiple routes? We don't want endless parameters so how can we allow a user to 
-        #used send_to_window(agency, stop_id, route_id, route_id, route_id, etc.)
+        query = nextbus.get_predictions_for_stop(agency, stop_id)
+        window.title('Next Arrivals at ' + query.stop_title)
+        i = 0
         for route in route_id:
                 for prediction in query.predictions:
                         #search for the specified route id in predictions, if you get a match send the first prediction
-                        #you find to the window method below. So we will probably need to run that in here
+                        #you find to the window. Then we want to keep adding to the window for any prediction that matches
+                        #the tag of route.
                         route_title = prediction.direction.route.title
                         arrival_time = prediction.minutes
                         if prediction.direction.route.tag == route:
-                                tk.Label(window, text= route_title + ': ', font=("Arial Bold", 30)).grid(row=0,column=0)
-                                tk.Label(window, text=arrival_time, font=("Arial Bold", 30)).grid(row=0,column=1)
-                                tk.Label(window, text=" minutes", font=("Arial Bold", 30)).grid(row=0,column=2)
+                                tk.Label(window, text= route_title + ': ', font=("Arial Bold", 30)).grid(row=i,column=0)
+                                tk.Label(window, text=arrival_time, font=("Arial Bold", 30)).grid(row=i,column=1)
+                                tk.Label(window, text=" minutes", font=("Arial Bold", 30)).grid(row=i,column=2)
                                 window.update()
+                                i = i+1
                                 break
-        window.title('Next Arrivals')
         window.mainloop()
 
 
 #main
-#prediction_to_window(cyride,tturn, gn, bn)
+#print_stops_for_route(cyride,gs)
+prediction_to_window(cyride,lfriley,gs,blue)
 
 #issues: 
 #        the window flashes when it is running, not a big  but kind of annoying
-#        fixed the error when closing but now the window does not continuously update. Need a loop at the end of prediction_to_window() method
+#        fixed the error when closing but now the window does not continuously update. Need a loop at the end of prediction_to_window() method **
 #        sometimes the display gets messed up with what number to display
 #        need to fix the labels so this can be more of a multipurpose app
 #        handle printing -1 value for no prediction (fix with update v1.0)
