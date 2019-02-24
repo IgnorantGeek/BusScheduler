@@ -1,5 +1,6 @@
 import nextbus
 import Tkinter as tk
+import time
 
 #ISU agency
 cyride = 'cyride'
@@ -52,7 +53,22 @@ def prediction_to_window(agency, stop_id, *route_id):
                                 i = i+1
                                 break
         window.mainloop()
+        
+        row = 0
+        while row <= i:
+                for route in route_id:
+                        update_route_time(window, row, agency, stop_id, route)
+        if row == i & window.state() == 'normal':
+                row = 0
+        time.sleep(20)
 
+def update_route_time(window, row_num, agency, stop_id, route_id):
+        query = nextbus.get_predictions_for_stop(agency, stop_id)
+        for prediction in query.predictions:
+                prediction_tag = prediction.direction.route.tag
+                arrival = prediction.minutes
+                if prediction_tag == route_id:
+                        tk.Label(window, text=arrival, font=("Arial Bold", 30)).grid(row=row_num,column=1)
 
 #main
 #print_stops_for_route(cyride,gs)
