@@ -1,5 +1,6 @@
 import nextbus
 import Tkinter as tk
+import tkMessageBox
 import time
 
 #ISU agency
@@ -31,37 +32,48 @@ def print_route_tags(agency):
         for route in routes:
                 print "Route {} has route_tag {}".format(route.title, route.tag)
 
-# Can probably integrate the above method here. Pass in the routes and stops you want predictions for and it will
-# pull up a window with the readout
+
+#       arrival_times is the array of times to update in a loop. They are StringVars and so should 
+#       get updated in the window whenever the StringVar array is updated
 def prediction_to_window(agency, stop_id, *route_id):
+        arrival_times = []
+        def callback():
+                if tkMessageBox.askokcancel("Quit", "Do you really wish to quit?"):
+                        window.destroy()
         window = tk.Tk()
+        window.protocol("WM_DELETE_WINDOW", callback)
         query = nextbus.get_predictions_for_stop(agency, stop_id)
         window.title('Next Arrivals at ' + query.stop_title)
         i = 0
+        #this loop sets the window
         for route in route_id:
                 for prediction in query.predictions:
-                        #search for the specified route id in predictions, if you get a match send the first prediction
-                        #you find to the window. Then we want to keep adding to the window for any prediction that matches
-                        #the tag of route.
                         route_title = prediction.direction.route.title
-                        arrival_time = prediction.minutes
+                        arrival_time = tk.StringVar()
+                        arrival_time.set(prediction.minutes)
+                        arrival_times.append(arrival_time)
                         if prediction.direction.route.tag == route:
                                 tk.Label(window, text= route_title + ': ', font=("Arial Bold", 30)).grid(row=i,column=0)
-                                tk.Label(window, text=arrival_time, font=("Arial Bold", 30)).grid(row=i,column=1)
+                                tk.Label(window, textvariable=arrival_time, font=("Arial Bold", 30)).grid(row=i,column=1)
                                 tk.Label(window, text=" minutes", font=("Arial Bold", 30)).grid(row=i,column=2)
                                 window.update()
                                 i = i+1
                                 break
-        window.mainloop()
         
-        row = 0
-        while row <= i:
+        #this loop should update all the times until the window is closed. Can't detect when the window closes properly
+        for times in arrival_times:
+                newq = nextbus.get_predictions_for_stop(agency, stop_id)
                 for route in route_id:
-                        update_route_time(window, row, agency, stop_id, route)
-        if row == i & window.state() == 'normal':
-                row = 0
-        time.sleep(20)
+                        for prediction in newq.predictions:
+                                newtime = prediction.minutes
+                                if prediction.direction.route.tag == route:
+                                        times.set(newtime)
+                                        break
+                #time.sleep(20)
 
+        window.mainloop()
+
+#this function isn't really used anymore. Going to keep it around for the hell of it
 def update_route_time(window, row_num, agency, stop_id, route_id):
         query = nextbus.get_predictions_for_stop(agency, stop_id)
         for prediction in query.predictions:
@@ -70,13 +82,10 @@ def update_route_time(window, row_num, agency, stop_id, route_id):
                 if prediction_tag == route_id:
                         tk.Label(window, text=arrival, font=("Arial Bold", 30)).grid(row=row_num,column=1)
 
-#main
+#MAIN:
 #print_stops_for_route(cyride,gs)
 prediction_to_window(cyride,lfriley,gs,blue)
 
-#issues: 
-#        the window flashes when it is running, not a big  but kind of annoying
-#        fixed the error when closing but now the window does not continuously update. Need a loop at the end of prediction_to_window() method **
-#        sometimes the display gets messed up with what number to display
-#        need to fix the labels so this can be more of a multipurpose app
-#        handle printing -1 value for no prediction (fix with update v1.0)
+#ISSUES: 
+#       I can't figure out how to run a loop until the window closes. The window.state() == 'normal' feature doesn't seem
+#       to work properly. Either run into an infinite loop scenario or have to throw a python error every time the app closes
