@@ -89,3 +89,6 @@ prediction_to_window(cyride,lfriley,gs,blue)
 #ISSUES: 
 #       I can't figure out how to run a loop until the window closes. The window.state() == 'normal' feature doesn't seem
 #       to work properly. Either run into an infinite loop scenario or have to throw a python error every time the app closes
+#
+#       Potential idea: Create Arrival time classes that will store the the arrival time of a specific route. Then have a function
+#       that will pull a new query from get_predictions, update all the arrival times, and refresh the tkinter window.
