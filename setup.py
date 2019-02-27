@@ -7,3 +7,5 @@ setup(
     py_modules  = ['nextbus'],
     url         = 'https://github.com/IgnorantGeek/BusScheduler.git',
 )
+
+#I don't really understand what to do with this file
