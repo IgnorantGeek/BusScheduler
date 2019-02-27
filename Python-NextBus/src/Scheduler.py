@@ -1,4 +1,4 @@
-import nextbus
+import lib.NextBus as nextbus
 import Tkinter as tk
 import tkMessageBox
 import time
