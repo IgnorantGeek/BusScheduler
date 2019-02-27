@@ -1,4 +1,4 @@
-import lib.NextBus as nextbus
+import NextBus as nb
 import Tkinter as tk
 import tkMessageBox
 import time
@@ -23,12 +23,14 @@ laverne = '2040'
 lfriley = '2041'
 
 def print_stops_for_route(agency, route_id):
-        stops = nextbus.get_route_config(agency, route_id)
+        stops = nb.get_route_config(agency, route_id)
+        print "Stops for the {} route".format(stops.route.title)
         for stop in stops.stops:
                 print "Stop at {} has stop_id {}".format(stop.title, stop.tag)
 
 def print_route_tags(agency):
-        routes = nextbus.get_all_routes_for_agency(agency)
+        routes = nb.get_all_routes_for_agency(agency)
+        print "Routes for agency {}".format(agency)
         for route in routes:
                 print "Route {} has route_tag {}".format(route.title, route.tag)
 
@@ -42,7 +44,7 @@ def prediction_to_window(agency, stop_id, *route_id):
                         window.destroy()
         window = tk.Tk()
         window.protocol("WM_DELETE_WINDOW", callback)
-        query = nextbus.get_predictions_for_stop(agency, stop_id)
+        query = nb.get_predictions_for_stop(agency, stop_id)
         window.title('Next Arrivals at ' + query.stop_title)
         i = 0
         #this loop sets the window
@@ -62,7 +64,7 @@ def prediction_to_window(agency, stop_id, *route_id):
         
         #this loop should update all the times until the window is closed. Can't detect when the window closes properly
         for times in arrival_times:
-                newq = nextbus.get_predictions_for_stop(agency, stop_id)
+                newq = nb.get_predictions_for_stop(agency, stop_id)
                 for route in route_id:
                         for prediction in newq.predictions:
                                 newtime = prediction.minutes
@@ -75,7 +77,7 @@ def prediction_to_window(agency, stop_id, *route_id):
 
 #this function isn't really used anymore. Going to keep it around for the hell of it
 def update_route_time(window, row_num, agency, stop_id, route_id):
-        query = nextbus.get_predictions_for_stop(agency, stop_id)
+        query = nb.get_predictions_for_stop(agency, stop_id)
         for prediction in query.predictions:
                 prediction_tag = prediction.direction.route.tag
                 arrival = prediction.minutes
@@ -83,8 +85,10 @@ def update_route_time(window, row_num, agency, stop_id, route_id):
                         tk.Label(window, text=arrival, font=("Arial Bold", 30)).grid(row=row_num,column=1)
 
 #MAIN:
-#print_stops_for_route(cyride,gs)
-prediction_to_window(cyride,lfriley,gs,blue)
+print_route_tags(cyride)
+print('\n')
+print_stops_for_route(cyride,gs)
+#prediction_to_window(cyride,lfriley,gs,blue)
 
 #ISSUES: 
 #       I can't figure out how to run a loop until the window closes. The window.state() == 'normal' feature doesn't seem

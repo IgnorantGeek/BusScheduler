@@ -4,6 +4,9 @@ from urllib import urlencode
 
 NEXTBUS_SERVICE_URL = "http://webservices.nextbus.com/service/publicXMLFeed"
 
+#This is a copy of a python project on github. One method has been removed for redundancy. 
+#The original project can be found at: https://github.com/apparentlymart/python-nextbus
+
 
 def _autoinit(realinit = None):
     def auto_init(self, **kwargs):
@@ -40,16 +43,6 @@ def set_url_fetcher(func):
 
 def fetch_xml(url):
     return ElementTree.parse(_url_fetcher(url))
-
-
-def make_fetcher_method(url_func, target_class):
-    def meth(self):
-        if _url_fetcher is None:
-            raise RuntimeError("No configured url fetcher")
-        url = url_func(self)
-        etree = fetch_xml(url)
-        return target_class.from_etree(etree)
-
 
 def make_nextbus_url(command, a = None, *args):
     real_args = []
