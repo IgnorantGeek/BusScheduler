@@ -1,5 +1,5 @@
 from xml.etree import ElementTree
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 NEXTBUS_SERVICE_URL = "http://webservices.nextbus.com/service/publicXMLFeed"

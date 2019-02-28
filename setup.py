@@ -8,3 +8,4 @@ setup(
 )
 
 #I don't really understand what to do with this file
+#I need to include all the packages I use I guess? So that when someone runs setup it works cleanly.
