@@ -1,4 +1,2 @@
-#import RPIO
+import gpiozero as gpio
 import NextBus as nb
-
-#how do we import python library in a different directory?
