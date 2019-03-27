@@ -1,5 +1,4 @@
 import NextBus as nb
-import tkinter as tk
 import time
 
 #ISU agency
@@ -36,6 +35,7 @@ def print_route_tags(agency):
 
 #       arrival_times is the array of times to update in a loop. They are StringVars and so should 
 #       get updated in the window whenever the StringVar array is updated
+"""
 def prediction_to_window(agency, stop_id, *route_id):
     arrival_times = []
     window = tk.Tk()
@@ -65,8 +65,10 @@ def prediction_to_window(agency, stop_id, *route_id):
                 if prediction.direction.route.tag == route:
                     times.set(newtime)
                     break
+"""
 
 #this function isn't really used anymore. Going to keep it around for the hell of it
+"""
 def update_route_time(window, row_num, agency, stop_id, route_id):
     query = nb.get_predictions_for_stop(agency, stop_id)
     for prediction in query.predictions:
@@ -74,6 +76,7 @@ def update_route_time(window, row_num, agency, stop_id, route_id):
         arrival = prediction.minutes
         if prediction_tag == route_id:
             tk.Label(window, text=arrival, font=("Arial Bold", 30)).grid(row=row_num,column=1)
+"""
 
 #MAIN:
 print_route_tags(cyride)
