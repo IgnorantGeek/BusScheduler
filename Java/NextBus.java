@@ -10,10 +10,26 @@ import org.w3c.dom.*;
 import java.lang.String;
 import java.until.ArrayList;
 
+public class NextBus
+{
+    java.util.ArrayList<Agency> agencies = new ArrayList<Agency>();
+    
+    public void add_agency_by_tag(String tag)
+    {
+        Agency n = new Agency(tag);
+        agencies.add(n);
+    }
+}
+
+/*TODO
+This class needs finished first. Figure out what methods we need to pull the info for a specific agency
+Will need prediction methods, config methods, etc. Anything that directly interacts with NextBus' public XML feed
+Needs to be in this class.
+*/
 public class PullXml
 {
     //We want to pull the xml data and return it somehow. Figure out the implementation.
-    public static void fill_agency()
+    static void fill_agency()
     {
 
     }
@@ -44,16 +60,4 @@ public class Stop
     //a stop in the specified agency
     String tag, title;
     ArrayList<Route> routes = new ArrayList<Route>();
-
-}
-
-public class nextbus
-{
-    java.util.ArrayList<Agency> agencies = new ArrayList<Agency>();
-    
-    public void add_agency_by_tag(String tag)
-    {
-        Agency n = new Agency(tag);
-        agencies.add(n);
-    }
 }   
