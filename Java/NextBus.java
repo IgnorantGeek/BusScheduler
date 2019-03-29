@@ -27,13 +27,25 @@ This class needs finished first. Figure out what methods we need to pull the inf
 Will need prediction methods, config methods, etc. Anything that directly interacts with NextBus' public XML feed
 Needs to be in this class.
 */
-public class PullXml
+private class XMLtoDoc
 {
     //We want to pull the xml data and return it somehow. Figure out the implementation.
     static String agencyList = "http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList";
-    static void fillAgency()
+    static Document agencyList()
     {
-
+        return null;
+    }
+    static Document routeList(String agencyTag)
+    {
+        return null;
+    }
+    static Document routeConfig(String agencyTag)
+    {
+        return null;
+    }
+    static Document routeConfig(String agencyTag, String routeTag)
+    {
+        return null;
     }
 }
 
@@ -47,6 +59,11 @@ public class Agency
     Agency(String tag)
     {
         //need to pull the xml data, fill in all the data for this agency when created.
+        //How will we check if tags are valid? Where should we call that fillAgency?
+        //Probably on an agency creation call. So we try to create, it will call fillAgency,
+        //Fill agency will return something, and check if that tag is valid. If it is fill in 
+        //all the info we can get/could need and fill in the Agency. If the tag is not valid throw
+        //out the Agency instance and return some error or something? Need to figure out the java syntax for what I want to do.
     }
 }
 
