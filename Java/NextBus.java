@@ -4,9 +4,10 @@
 //XML for Iowa State Route List http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a=cyride
 
 import java.io.*;
+import java.net.*;
+import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.*;
 import java.lang.String;
 import java.until.ArrayList;
 
@@ -29,7 +30,8 @@ Needs to be in this class.
 public class PullXml
 {
     //We want to pull the xml data and return it somehow. Figure out the implementation.
-    static void fill_agency()
+    static String agencyList = "http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList";
+    static void fillAgency()
     {
 
     }
