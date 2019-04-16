@@ -72,7 +72,6 @@ public class NextBus
             for (int i = 0; i < routes.size(); i++)
             {
                 routes.get(i).print();
-                //routes.get(i).print_stops();
             }
         }
     }
