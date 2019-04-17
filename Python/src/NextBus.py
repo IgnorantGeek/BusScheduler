@@ -60,7 +60,21 @@ class Agency:
                 break
 
 class Route:
-    x = 6
+    tag = ''
+    title = ''
+
+    def __init__(self, tag, title):
+        self.tag = tag
+        self.title = title
+
+    def printStops(self, agencyTag):
+        url = routeConfig + 'agencyTag' + '&r=' + self.tag
+        file = urlopen(url)
+        tree = ET.parse(file)
+        root = tree.getroot()
+        for stop in root.findall('stop'):
+            print "Stop Title: {}".format(stop.get('title'))
+            print "Stop Tag: {}\n".format(stop.get('tag'))
 
 class Stop:
     x = 6
