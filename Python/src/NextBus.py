@@ -30,9 +30,9 @@ def printAgencies():
     tree = ET.parse(file)
     root = tree.getroot()
     for agency in root.findall('agency'):
-        print "Title: {}".format(agency.get('title'))
-        print "Tag: {} ".format(agency.get('tag'))
-        print "Region: {}\n".format(agency.get('regionTitle'))
+        print("Title: {}".format(agency.get('title')))
+        print("Tag: {} ".format(agency.get('tag')))
+        print("Region: {}\n".format(agency.get('regionTitle')))
 
 class NextBus:
     #an instance of the nextbus monitoring class. I want to build in a lot of functionality. Allowing for tracking specific stops,
@@ -62,6 +62,7 @@ class Agency:
 class Route:
     tag = ''
     title = ''
+    stops = []
 
     def __init__(self, tag, title):
         self.tag = tag
@@ -72,9 +73,10 @@ class Route:
         file = urlopen(url)
         tree = ET.parse(file)
         root = tree.getroot()
-        for stop in root.findall('stop'):
-            print "Stop Title: {}".format(stop.get('title'))
-            print "Stop Tag: {}\n".format(stop.get('tag'))
+        route = root[0]
+        for stop in route.findall('stop'):
+            print("Stop Title: {}".format(stop.get('title')))
+            print("Stop Tag: {}\n".format(stop.get('tag')))
 
 class Stop:
     x = 6

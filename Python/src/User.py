@@ -1,3 +1,6 @@
-import BusScheduler.Python.src.NextBus as NB 
+import NextBus as NB 
 
-NB.printAgencies()
+Test = NB.Route('952', '25 Gold North')
+Test.printStops('cyride')
+
+#NB.printAgencies()
