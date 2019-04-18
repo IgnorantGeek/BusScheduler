@@ -21,6 +21,9 @@ lfriley = '2041'
 #then you can use some of the functions to figure out what routes and stops you want. There can be a function that will pop up a window that
 #tracks live predictions for whatever routes you specify. Would be easier than the class stuff, with the exception of the Agency class
 
+#It could help. We can just see what data we get from the predictions that will be the active requests. Do we create a window class? You could 
+#Pass in agencies that you want to track and be able to switch between them in a window. That would be super cool if we can get it to work.
+
 
 import xml.etree.ElementTree as ET
 from urllib2 import urlopen
@@ -104,4 +107,7 @@ class Agency:
     def initAllStops(self):
         for route in self.routes:
             route.initStops(self)
-        
+
+class Window:
+    #under Construction
+    x = 69        
