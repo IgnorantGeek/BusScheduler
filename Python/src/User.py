@@ -1,6 +1,9 @@
-import NextBus as NB 
+import NextBus as NB
+import time 
 
-Test = NB.Route('952', '25 Gold North')
-Test.printStops('cyride')
+Test = NB.Agency('cyride')
+print(Test.title)
+print(Test.region)
 
+Test.printRoutes()
 #NB.printAgencies()
