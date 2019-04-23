@@ -1,9 +1,9 @@
-import NextBus as NB
-import time 
+import NextBus as NB 
 
-Test = NB.Agency('cyride')
-print(Test.title)
-print(Test.region)
 
-Test.printRoutes()
-#NB.printAgencies()
+cyride = NB.Agency('cyride')
+cyride.initRoutes()
+cyride.initAllStops()
+print("Agency Initialized.")
+window = NB.Window(cyride)
+window.loop()

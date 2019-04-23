@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #ISU agency
 cyride = 'cyride'
 
@@ -27,6 +28,7 @@ lfriley = '2041'
 
 import xml.etree.ElementTree as ET
 from urllib2 import urlopen
+import tkinter as tk
 
 agencyList = "http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList"
 routeList = "http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a="
@@ -67,7 +69,7 @@ class Agency:
             root = tree.getroot()
             route = root[0]
             for stop in route.findall('stop'):
-                self.stops.append(Agency.Stop(stop.get('tag'), stop.get('title')))
+                self.stops.append(stop.get('tag', stop.get('title')))
 
     class Stop:
         tag = ''
@@ -108,6 +110,18 @@ class Agency:
         for route in self.routes:
             route.initStops(self)
 
+#tk.mainloop is a substitute for the following while loop:
+# while True:
+#   tk.update_idletasks()
+#   tk.update()
 class Window:
-    #under Construction
-    x = 69        
+    win = tk.Tk()
+    agency = ''
+
+    def __init__(self, Agency):
+        self.win.title(Agency.title + " Predictions")
+        self.agency = Agency
+        self.win.geometry("500x200") #change me to make window bigger
+    
+    def loop(self):
+        self.win.mainloop()
