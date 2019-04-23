@@ -82,15 +82,25 @@ class Agency:
         def __init__(self, tag, title):
             self.tag = tag
             self.title = title
+        
+        def compare(self, Stop):
+            if self.tag == Stop.tag:
+                return True
+            else:
+                return False
 
     def printRoutes(self):
         for route in self.routes:
             print("{} : {}".format(route.title, route.tag))
 
-    def printStops(self):
+    def printStopsInRoutes(self):
         for route in self.routes:
             for stop in route.stops:
                 print("{} : {}".format(stop.title, stop.tag))
+    
+    def printStops(self):
+        for stop in self.stops:
+            print("{} : {}".format(stop.title, stop.tag))
     
     def initAgency(self):
         file = urlopen(routeConfig + self.tag)
@@ -102,24 +112,51 @@ class Agency:
                 if grandchild.tag == 'stop':
                     newStop = self.Stop(grandchild.attrib.get('tag'), grandchild.attrib.get('title'))
                     newRoute.stops.append(newStop)
+                    i = 0
+                    while i < len(self.stops):
+                        
+                        i += 1
+            newRoute.stops.sort(key=lambda x: x.tag)
             self.routes.append(newRoute)
+        self.stops.sort(key=lambda x: x.title)
 
 
-class Window:
-    #tk.mainloop is a substitute for the following while loop:
-    # while True:
-    #   tk.update_idletasks()
-    #   tk.update()
-    win = tk.Tk()
-    agency = ''
+class NextBus:
 
-    def __init__(self, Agency):
-        self.win.title(Agency.title + " Predictions")
-        self.agency = Agency
-        self.win.geometry("500x200") #change me to make window bigger
-    
-    def loop(self):
-        self.win.mainloop()
+    class Window:
+        #tk.mainloop is a substitute for the following while loop:
+        # while True:
+        #   tk.update_idletasks()
+        #   tk.update()
+        win = tk.Tk()
+        agency = ''
+        # Tkinter can:
+        #               ________________                      
+        #              |                |_____    __          
+        #              |  SUCK MY ASS   |     |__|  |_________
+        #              |________________|     |::|  |        /
+        # /\**/\       |                \.____|::|__|      <  
+        #( o_o  )_     |                      \::/  \._______\
+        # (u--u   \_)  |                                      
+        #  (||___   )==\                                      
+        #,dP"/b/=( /P"/b\                                     
+        #|8 || 8\=== || 8                                     
+        #`b,  ,P  `b,  ,P                                     
+        #  """`     """`                                      
+        def __init__(self, Agency):
+            self.win.title(Agency.title + " Predictions")
+            self.agency = Agency
+            self.win.geometry("500x200") #change me to make window bigger
+        
+        def loop(self):
+            self.win.mainloop()
+
+
+
+    class Cli:
+        print("Welcome to the NextBus tracker, v1.6.31. Please enter a command, or type \'Help\' for a list of options.")
+        response = raw_input('---> ')
+        
 
 class Prediction:
     x = 69

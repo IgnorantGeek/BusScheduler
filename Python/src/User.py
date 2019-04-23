@@ -1,4 +1,5 @@
 import NextBus as NB 
 
 
-NB.printRoutesInAgency('cyride')
+Test = NB.Agency('cyride')
+Test.printStops()
