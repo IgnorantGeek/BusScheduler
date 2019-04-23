@@ -123,13 +123,13 @@ class Agency:
 
 class NextBus:
 
-    class Window:
+    #class Window:
         #tk.mainloop is a substitute for the following while loop:
         # while True:
         #   tk.update_idletasks()
         #   tk.update()
-        win = tk.Tk()
-        agency = ''
+        #win = tk.Tk()
+        #agency = ''
         # Tkinter can:
         #               ________________                      
         #              |                |_____    __          
@@ -143,20 +143,46 @@ class NextBus:
         #|8 || 8\=== || 8                                     
         #`b,  ,P  `b,  ,P                                     
         #  """`     """`                                      
-        def __init__(self, Agency):
-            self.win.title(Agency.title + " Predictions")
-            self.agency = Agency
-            self.win.geometry("500x200") #change me to make window bigger
+        #def __init__(self, Agency):
+        #    self.win.title(Agency.title + " Predictions")
+        #    self.agency = Agency
+        #    self.win.geometry("500x200") #change me to make window bigger
         
-        def loop(self):
-            self.win.mainloop()
+        #def loop(self):
+        #    self.win.mainloop()
 
 
 
-    class Cli:
+    def Cli(self):
         print("Welcome to the NextBus tracker, v1.6.31. Please enter a command, or type \'Help\' for a list of options.")
-        response = raw_input('---> ')
-        
+        loop1 = True
+        response = ''
+        agency = ''
+        while loop1:
+            response = raw_input('---> ')
+            if (response == 'Help'):
+                print("A bunch of bs about what commands you can do.")
+            if (response == 'addAgency'):
+                print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
+                loop2 = True
+                while loop2:
+                    secondresponse = raw_input('---> ') 
+                    if (secondresponse == 'printAll'):
+                        printAgencies()
+                    else:
+                        agency = Agency(secondresponse)
+                        #need some sort of check that the agency was created properly. Then return to the user what the status is.
+                        if agency.tag == '':
+                            print('An agency with the tag ' + secondresponse + ' could not be found. Please enter a valid tag, or enter \'printAll\' for a list of agency tags.')
+                        else:
+                            print('The Agency ' + agency.title + ' has been added.')
+                            loop2 = False
+            if (response == 'trackStop'):
+                print("Not yet functional.")
+                #do something
+            if (response == 'quit'):
+                print("Goodbye.")
+                loop1 = False
 
 class Prediction:
     x = 69
