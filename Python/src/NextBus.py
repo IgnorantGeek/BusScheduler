@@ -18,14 +18,6 @@ bessey = '2500'
 laverne = '2040'
 lfriley = '2041' 
 
-#Do I really need all this class stuff? Can I just have like an Agency class? You create that with a tag and it fills out some base stuff
-#then you can use some of the functions to figure out what routes and stops you want. There can be a function that will pop up a window that
-#tracks live predictions for whatever routes you specify. Would be easier than the class stuff, with the exception of the Agency class
-
-#It could help. We can just see what data we get from the predictions that will be the active requests. Do we create a window class? You could 
-#Pass in agencies that you want to track and be able to switch between them in a window. That would be super cool if we can get it to work.
-
-
 import xml.etree.ElementTree as ET
 from urllib2 import urlopen
 import tkinter as tk
@@ -42,10 +34,14 @@ def printAgencies():
         print("Title: {}".format(agency.get('title')))
         print("Tag: {} ".format(agency.get('tag')))
         print("Region: {}\n".format(agency.get('regionTitle')))
-    #an instance of the nextbus monitoring class. I want to build in a lot of functionality. Allowing for tracking specific stops,
-    #specific routes, or whole agencies. Need to figure out how I want to implement this. Think about it from a user perspective.
-    #How will someone use this library? What will someone be doing with said library?
 
+def printRoutesInAgency(tag):
+    file = urlopen(routeList + tag)
+    tree = ET.parse(file)
+    root = tree.getroot()
+    for route in root.findall('route'):
+        print("Route Title: {}".format(route.get('title')))
+        print("Route Tag: {}".format(route.get('tag')))
 # Need to handle instances where someone isn't able to create their agency. Essentially handle times where someone enters the wrong tag
 
 
@@ -56,6 +52,7 @@ class Agency:
     title = ''
     region = ''
     routes = []
+    stops = []
 
     def __init__(self, tag):
         file = urlopen(agencyList)
@@ -80,17 +77,20 @@ class Agency:
     
     class Stop:
         tag = ''
-        location = ''
+        title = ''
 
-        def __init__(self, tag, locationTitle):
+        def __init__(self, tag, title):
             self.tag = tag
-            self.location = locationTitle
+            self.title = title
 
     def printRoutes(self):
         for route in self.routes:
-            print(route.title)
-            print(route.tag)
-            print
+            print("{} : {}".format(route.title, route.tag))
+
+    def printStops(self):
+        for route in self.routes:
+            for stop in route.stops:
+                print("{} : {}".format(stop.title, stop.tag))
     
     def initAgency(self):
         file = urlopen(routeConfig + self.tag)
@@ -104,13 +104,12 @@ class Agency:
                     newRoute.stops.append(newStop)
             self.routes.append(newRoute)
 
-    
 
-#tk.mainloop is a substitute for the following while loop:
-# while True:
-#   tk.update_idletasks()
-#   tk.update()
 class Window:
+    #tk.mainloop is a substitute for the following while loop:
+    # while True:
+    #   tk.update_idletasks()
+    #   tk.update()
     win = tk.Tk()
     agency = ''
 
@@ -121,3 +120,7 @@ class Window:
     
     def loop(self):
         self.win.mainloop()
+
+class Prediction:
+    x = 69
+    #Under Construction
