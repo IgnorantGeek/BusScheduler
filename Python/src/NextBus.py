@@ -46,37 +46,16 @@ def printAgencies():
     #specific routes, or whole agencies. Need to figure out how I want to implement this. Think about it from a user perspective.
     #How will someone use this library? What will someone be doing with said library?
 
-#Creation of an agency will call the agencyList Feed URL and check that it is a valid agency with NextBus
+# Need to handle instances where someone isn't able to create their agency. Essentially handle times where someone enters the wrong tag
+
+
+
+
 class Agency:
     tag = ''
     title = ''
     region = ''
     routes = []
-
-    class Route:
-        tag = ''
-        title = ''
-        stops = []
-
-        def __init__(self, tag, title):
-            self.tag = tag
-            self.title = title
-
-        def initStops(self, Agency):
-            url = routeConfig + Agency.tag + '&r=' + self.tag
-            file = urlopen(url)
-            tree = ET.parse(file)
-            root = tree.getroot()
-            route = root[0]
-            for stop in route.findall('stop'):
-                self.stops.append(stop.get('tag', stop.get('title')))
-
-    class Stop:
-        tag = ''
-        location = ''
-        def __init(self, tag, locationTitle):
-            self.tag = tag
-            self.location = locationTitle
 
     def __init__(self, tag):
         file = urlopen(agencyList)
@@ -88,7 +67,24 @@ class Agency:
                 self.title = agency.get('title')
                 self.region = agency.get('regionTitle')
                 break
-        self.initRoutes()
+        self.initAgency()
+    
+    class Route:
+        tag = ''
+        title = ''
+        stops = []
+
+        def __init__(self, tag, title):
+            self.tag = tag
+            self.title = title
+    
+    class Stop:
+        tag = ''
+        location = ''
+
+        def __init__(self, tag, locationTitle):
+            self.tag = tag
+            self.location = locationTitle
 
     def printRoutes(self):
         for route in self.routes:
@@ -96,19 +92,19 @@ class Agency:
             print(route.tag)
             print
     
-    def initRoutes(self):
-        file = urlopen(routeList + self.tag)
+    def initAgency(self):
+        file = urlopen(routeConfig + self.tag)
         tree = ET.parse(file)
         root = tree.getroot()
-        for route in root.findall('route'):
-            tag = route.get('tag')
-            title = route.get('title')
-            newRoute = self.Route(tag, title)
+        for child in root:
+            newRoute = self.Route(child.attrib.get('tag'), child.attrib.get('title'))
+            for grandchild in child:
+                if grandchild.tag == 'stop':
+                    newStop = self.Stop(grandchild.attrib.get('tag'), grandchild.attrib.get('title'))
+                    newRoute.stops.append(newStop)
             self.routes.append(newRoute)
+
     
-    def initAllStops(self):
-        for route in self.routes:
-            route.initStops(self)
 
 #tk.mainloop is a substitute for the following while loop:
 # while True:
