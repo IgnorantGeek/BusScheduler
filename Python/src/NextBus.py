@@ -20,7 +20,7 @@ lfriley = '2041'
 
 import xml.etree.ElementTree as ET
 from urllib2 import urlopen
-import tkinter as tk
+#import tkinter as tk
 
 agencyList = "http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList"
 routeList = "http://webservices.nextbus.com/service/publicXMLFeed?command=routeList&a="
@@ -153,36 +153,59 @@ class NextBus:
 
 
 
-    def Cli(self):
-        print("Welcome to the NextBus tracker, v1.6.31. Please enter a command, or type \'Help\' for a list of options.")
-        loop1 = True
-        response = ''
-        agency = ''
-        while loop1:
-            response = raw_input('---> ')
-            if (response == 'Help'):
-                print("A bunch of bs about what commands you can do.")
-            if (response == 'addAgency'):
-                print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
-                loop2 = True
-                while loop2:
-                    secondresponse = raw_input('---> ') 
-                    if (secondresponse == 'printAll'):
-                        printAgencies()
-                    else:
-                        agency = Agency(secondresponse)
-                        #need some sort of check that the agency was created properly. Then return to the user what the status is.
-                        if agency.tag == '':
-                            print('An agency with the tag ' + secondresponse + ' could not be found. Please enter a valid tag, or enter \'printAll\' for a list of agency tags.')
+    class Cli:
+        agencies = []
+        trackedStops = []
+
+        def run(self):
+            print("Welcome to the NextBus tracker. Please enter a command, or type \'help\' for a list of options.")
+            loop1 = True
+            while loop1:
+                response = raw_input('---> ')
+                if (response == 'help'):
+                    print("NextBus tracker, v1.6.31, commands:")
+                    print("-----------------------------------------------------------------------------------")
+                    print("help:  Displays a list of available commands.\n")
+                    print("addAgency:  Add an agency to the list of trackers for this interface.")
+                    print("            Prompts the user to enter a valid NextBus agency tag.\n")
+                    print("printAll:  Prints all the agencies that NextBus supplies with the public XML Feed.\n")
+                    print("trackStop:  Adds a stop to be tracked by this interface. Stop is added by stop tag.")
+                    print("            Requires that a valid agency has been added to the interface.\n")
+                    print("printStops:  Prints all the stops and the stop tags in a given agency.")
+                    print("             Requires the agency to be added to the interface. Prompts the user to enter an")
+                    print("             agency tag that is currently tracked by the interface.\n")
+                if (response == 'addAgency'):
+                    print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
+                    loop2 = True
+                    while loop2:
+                        secondresponse = raw_input('---> ') 
+                        if (secondresponse == 'printAll'):
+                            printAgencies()
                         else:
-                            print('The Agency ' + agency.title + ' has been added.')
-                            loop2 = False
-            if (response == 'trackStop'):
-                print("Not yet functional.")
-                #do something
-            if (response == 'quit'):
-                print("Goodbye.")
-                loop1 = False
+                            newAgency = Agency(secondresponse)
+                            #need some sort of check that the agency was created properly. Then return to the user what the status is.
+                            if newAgency.tag == '':
+                                print('An agency with the tag ' + secondresponse + ' could not be found. Please enter a valid tag, or enter \'printAll\' for a list of agency tags.')
+                            else:
+                                print('The Agency ' + newAgency.title + ' has been added.')
+                                self.agencies.append(newAgency)
+                                newAgency = None #resets the agency variable. Makes sure we can check for a valid addition
+                                loop2 = False
+                if (response == 'trackStop'):
+                    print("Enter the tag of the agency you wish to add a tracked stop to.")
+                    loop3 = True;
+                    while loop3:
+                        thirdresponse = raw_input('---> ')
+                        for agency in self.agencies:
+                            if (thirdresponse == agency.tag):
+                                print("We found the stop ayyyyy. What are we going to do with tracked stops?")
+                                # We will need to have a 2D list with an Agency and a list of tracked stops for said agency.
+                                # Is there a better way to store the data? Will this be slow?
+                if (response == 'quit'):
+                    print("Goodbye.")
+                    loop1 = False
+                else:
+                    print("Please enter a valid command. For a list of commands type \'help\'.")
 
 class Prediction:
     x = 69
