@@ -53,6 +53,7 @@ class Agency:
     region = ''
     routes = []
     stops = []
+    trackedStops = []
 
     def __init__(self, tag):
         file = urlopen(agencyList)
@@ -88,6 +89,16 @@ class Agency:
                 return True
             else:
                 return False
+
+    def trackStop(self, stopTag):
+        for stop in self.trackedStops:
+            if stop.tag == stopTag:
+                return False #stop is already being tracked
+        for stop in self.stops:
+            if stop.tag == stopTag:
+                self.trackedStops.append(stop)
+                return True
+        return False #could not find the stop
 
     def printRoutes(self):
         for route in self.routes:
@@ -155,7 +166,6 @@ class NextBus:
 
     class Cli:
         agencies = []
-        trackedStops = []
 
         def run(self):
             print("Welcome to the NextBus tracker. Please enter a command, or type \'help\' for a list of options.")
@@ -198,9 +208,22 @@ class NextBus:
                         thirdresponse = raw_input('---> ')
                         for agency in self.agencies:
                             if (thirdresponse == agency.tag):
-                                print("We found the stop ayyyyy. What are we going to do with tracked stops?")
+                                print("You have selected to track a stop in the agency: " + agency.title)
+                                print("Please enter a tag of the stop for this agency that you wish to track. For a list of the stops in this agency, enter \'printStops\'.")
+                                loop4 = True
+                                while loop4:
+                                    fourthresponse = raw_input('---> ')
+                                    if (fourthresponse == 'printStops'):
+                                        agency.printStops()
+                                    if (agency.trackStop(fourthresponse)):
+                                        print("The stop has been added to the tracker list for this Agency.")
+                                        loop4 = False
+                                        loop3 = False #check this
                                 # We will need to have a 2D list with an Agency and a list of tracked stops for said agency.
                                 # Is there a better way to store the data? Will this be slow?
+                        #end of the loop
+                        print("Could not find an Agency with the tag " + thirdresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
+                        print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
                 if (response == 'quit'):
                     print("Goodbye.")
                     loop1 = False
