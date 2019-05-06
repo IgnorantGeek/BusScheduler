@@ -176,32 +176,36 @@ class NextBus:
                     print("NextBus tracker, v1.6.31, commands:")
                     print("-----------------------------------------------------------------------------------")
                     print("help:  Displays a list of available commands.\n")
+                    print("cancel: Exits a sub-menu prompt. (ie trackStops, printStops)\n")
                     print("addAgency:  Add an agency to the list of trackers for this interface.")
                     print("            Prompts the user to enter a valid NextBus agency tag.\n")
                     print("printAll:  Prints all the agencies that NextBus supplies with the public XML Feed.\n")
                     print("trackStop:  Adds a stop to be tracked by this interface. Stop is added by stop tag.")
                     print("            Requires that a valid agency has been added to the interface.\n")
+                    print("printActive: Displays a list of all the agencies currently added to the tracker list.\n")
                     print("printStops:  Prints all the stops and the stop tags in a given agency.")
                     print("             Requires the agency to be added to the interface. Prompts the user to enter an")
                     print("             agency tag that is currently tracked by the interface.\n")
-                if (response == 'addAgency'):
+                    print("quit: Closes the tracking session. All agencies will be deleted on exit.")
+                elif (response == 'addAgency'):
                     print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
                     loop2 = True
                     while loop2:
                         secondresponse = raw_input('---> ') 
                         if (secondresponse == 'printAll'):
                             printAgencies()
+                        elif (secondresponse == 'cancel'):
+                            loop2 = False
                         else:
                             newAgency = Agency(secondresponse)
-                            #need some sort of check that the agency was created properly. Then return to the user what the status is.
                             if newAgency.tag == '':
                                 print('An agency with the tag ' + secondresponse + ' could not be found. Please enter a valid tag, or enter \'printAll\' for a list of agency tags.')
                             else:
                                 print('The Agency ' + newAgency.title + ' has been added.')
                                 self.agencies.append(newAgency)
-                                newAgency = None #resets the agency variable. Makes sure we can check for a valid addition
+                                newAgency = None #resets the agency variable. Makes sure we can check for a valid addition later
                                 loop2 = False
-                if (response == 'trackStop'):
+                elif (response == 'trackStop'):
                     print("Enter the tag of the agency you wish to add a tracked stop to.")
                     loop3 = True;
                     while loop3:
@@ -215,20 +219,57 @@ class NextBus:
                                     fourthresponse = raw_input('---> ')
                                     if (fourthresponse == 'printStops'):
                                         agency.printStops()
-                                    if (agency.trackStop(fourthresponse)):
+                                    elif (agency.trackStop(fourthresponse)):
                                         print("The stop has been added to the tracker list for this Agency.")
                                         loop4 = False
                                         loop3 = False #check this
+                                    elif(fourthresponse == 'cancel'):
+                                        loop4 = False
+                                        loop3 = False
                                 # We will need to have a 2D list with an Agency and a list of tracked stops for said agency.
                                 # Is there a better way to store the data? Will this be slow?
-                        #end of the loop
+                            elif (thirdresponse == 'printActive'):
+                                print("Active Trackers: \n")
+                                for agency in agencies:
+                                    print("Title: {}".format(agency.title))
+                                    print("Tag: {}\n".format(agency.tag))
+                            elif (thirdresponse == 'cancel'):
+                                loop3 = False
+                                break #break out of the loop to save run time
                         print("Could not find an Agency with the tag " + thirdresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
+                        print("Please enter a valid agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
+                elif (response == 'printActive'):
+                    print("Active Trackers: \n")
+                    for agency in self.agencies:
+                        print("Title: {}".format(agency.title))
+                        print("Tag: {}\n".format(agency.tag))
+                elif (response == 'printAll'):
+                    printAgencies()
+                elif (response == 'printStops'):
+                    print("Please enter the tag of the agency you want to inspect.")
+                    loop5 = True;
+                    while loop5:
+                        fifthresponse = raw_input('--->')
+                        for agency in self.agencies:
+                            if (fifthresponse == agency.tag):
+                                print(agency.printStops())
+                            elif (fifthresponse == 'printActive'):
+                                print("Active Trackers: \n")
+                                for agency in self.agencies:
+                                    print("Title: {}".format(agency.title))
+                                    print("Tag: {}\n".format(agency.tag))
+                            elif (fifthresponse == 'cancel'):
+                                loop5 = False
+                                break
+                        print("Could not find an Agency with the tag " + fifthresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
                         print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
-                if (response == 'quit'):
+                elif (response == 'quit'):
                     print("Goodbye.")
                     loop1 = False
-                else:
-                    print("Please enter a valid command. For a list of commands type \'help\'.")
+                elif (response == 'cancel'):
+                    #don't do anything, just handle the case.
+                    loop1 = loop1
+                else: print("Please enter a valid command. For a list of commands type \'help\'.")
 
 class Prediction:
     x = 69
