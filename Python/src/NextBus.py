@@ -44,9 +44,6 @@ def printRoutesInAgency(tag):
         print("Route Tag: {}".format(route.get('tag')))
 # Need to handle instances where someone isn't able to create their agency. Essentially handle times where someone enters the wrong tag
 
-
-
-
 class Agency:
     tag = ''
     title = ''
@@ -191,7 +188,7 @@ class NextBus:
                     print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
                     loop2 = True
                     while loop2:
-                        secondresponse = raw_input('---> ') 
+                        secondresponse = raw_input('---> ')
                         if (secondresponse == 'printAll'):
                             printAgencies()
                         elif (secondresponse == 'cancel'):
@@ -207,7 +204,7 @@ class NextBus:
                                 loop2 = False
                 elif (response == 'trackStop'):
                     print("Enter the tag of the agency you wish to add a tracked stop to.")
-                    loop3 = True;
+                    loop3 = True
                     while loop3:
                         thirdresponse = raw_input('---> ')
                         for agency in self.agencies:
@@ -230,7 +227,7 @@ class NextBus:
                                 # Is there a better way to store the data? Will this be slow?
                             elif (thirdresponse == 'printActive'):
                                 print("Active Trackers: \n")
-                                for agency in agencies:
+                                for agency in self.agencies:
                                     print("Title: {}".format(agency.title))
                                     print("Tag: {}\n".format(agency.tag))
                             elif (thirdresponse == 'cancel'):
@@ -247,7 +244,7 @@ class NextBus:
                     printAgencies()
                 elif (response == 'printStops'):
                     print("Please enter the tag of the agency you want to inspect.")
-                    loop5 = True;
+                    loop5 = True
                     while loop5:
                         fifthresponse = raw_input('--->')
                         for agency in self.agencies:
