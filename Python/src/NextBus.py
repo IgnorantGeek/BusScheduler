@@ -233,8 +233,9 @@ class NextBus:
                             elif (thirdresponse == 'cancel'):
                                 loop3 = False
                                 break #break out of the loop to save run time
-                        print("Could not find an Agency with the tag " + thirdresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
-                        print("Please enter a valid agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
+                        if (loop3):
+                            print("Could not find an Agency with the tag " + thirdresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
+                            print("Please enter a valid agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
                 elif (response == 'printActive'):
                     print("Active Trackers: \n")
                     for agency in self.agencies:
@@ -246,7 +247,7 @@ class NextBus:
                     print("Please enter the tag of the agency you want to inspect.")
                     loop5 = True
                     while loop5:
-                        fifthresponse = raw_input('--->')
+                        fifthresponse = raw_input('---> ')
                         for agency in self.agencies:
                             if (fifthresponse == agency.tag):
                                 print(agency.printStops())
@@ -258,8 +259,9 @@ class NextBus:
                             elif (fifthresponse == 'cancel'):
                                 loop5 = False
                                 break
-                        print("Could not find an Agency with the tag " + fifthresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
-                        print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
+                        if (loop5):
+                            print("Could not find an Agency with the tag " + fifthresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
+                            print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
                 elif (response == 'quit'):
                     print("Goodbye.")
                     loop1 = False
