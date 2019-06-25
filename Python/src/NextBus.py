@@ -233,6 +233,9 @@ class NextBus:
                             elif (thirdresponse == 'cancel'):
                                 loop3 = False
                                 break #break out of the loop to save run time
+                        if (thirdresponse == 'cancel'):
+                            loop3 = False
+                            print("Please enter a valid command. For a list of commands type \'help\'.")
                         if (loop3):
                             print("Could not find an Agency with the tag " + thirdresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
                             print("Please enter a valid agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
