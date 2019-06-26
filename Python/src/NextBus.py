@@ -180,9 +180,7 @@ class NextBus:
                     print("trackStop:  Adds a stop to be tracked by this interface. Stop is added by stop tag.")
                     print("            Requires that a valid agency has been added to the interface.\n")
                     print("printActive: Displays a list of all the agencies currently added to the tracker list.\n")
-                    print("printStops:  Prints all the stops and the stop tags in a given agency.")
-                    print("             Requires the agency to be added to the interface. Prompts the user to enter an")
-                    print("             agency tag that is currently tracked by the interface.\n")
+                    print("printStops:  Prints all the stops and the stop tags in a given agency.\n")
                     print("quit: Closes the tracking session. All agencies will be deleted on exit.")
                 elif (response == 'addAgency'):
                     print('Please Enter the tag of the agency you would like to add. If you don\'t know the tag of you agency enter \'printAll\'.')
@@ -265,6 +263,12 @@ class NextBus:
                         if (loop5):
                             print("Could not find an Agency with the tag " + fifthresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
                             print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
+                elif (response == 'printAll'):
+                    printAgencies()
+                elif (response == 'printStops'):
+                    print('Please enter the tag of the agency to print. Note: the agency does not need to be added already.')
+                    sixthresponse = raw_input('---> ')
+                    printRoutesInAgency(sixthresponse)
                 elif (response == 'quit'):
                     print("Goodbye.")
                     loop1 = False
