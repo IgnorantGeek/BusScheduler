@@ -213,6 +213,7 @@ class NextBus:
                                 while loop4:
                                     fourthresponse = raw_input('---> ')
                                     if (fourthresponse == 'printStops'):
+                                        #this doesn't work for some reason
                                         agency.printStops()
                                     elif (agency.trackStop(fourthresponse)):
                                         print("The stop has been added to the tracker list for this Agency.")
@@ -242,27 +243,6 @@ class NextBus:
                     for agency in self.agencies:
                         print("Title: {}".format(agency.title))
                         print("Tag: {}\n".format(agency.tag))
-                elif (response == 'printAll'):
-                    printAgencies()
-                elif (response == 'printStops'):
-                    print("Please enter the tag of the agency you want to inspect.")
-                    loop5 = True
-                    while loop5:
-                        fifthresponse = raw_input('---> ')
-                        for agency in self.agencies:
-                            if (fifthresponse == agency.tag):
-                                print(agency.printStops())
-                            elif (fifthresponse == 'printActive'):
-                                print("Active Trackers: \n")
-                                for agency in self.agencies:
-                                    print("Title: {}".format(agency.title))
-                                    print("Tag: {}\n".format(agency.tag))
-                            elif (fifthresponse == 'cancel'):
-                                loop5 = False
-                                break
-                        if (loop5):
-                            print("Could not find an Agency with the tag " + fifthresponse + '. Have you added the agency to the list of CLI trackers? Is the agency a valid NextBus Agency?')
-                            print("Please enter an agency tag that has been added to the CLI. For a list of added agencies enter \'printActive\'.")
                 elif (response == 'printAll'):
                     printAgencies()
                 elif (response == 'printStops'):
